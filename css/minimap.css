@@ -4,6 +4,11 @@
   justify-items: center;
   height: 100%;
   width: 100%;
+  min-height: fit-content;
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .minimap {

@@ -57,6 +57,12 @@ let currentSentence = "";
 const forntWord = document.querySelector(".typingGame__frontWord");
 let userSentence = "";
 
+// SCORE RESUME
+const USER_SHOWCASE = document.querySelector(".userShowcase");
+
+// USER SCORE
+let userScore = 0;
+
 // BONUS BAR
 const GAME_BONUS_BAR = document.querySelector(".typingGame__bar");
 let gameBonusBarInterval = null;
