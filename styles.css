@@ -1,3 +1,5 @@
+@import "./minimap.css";
+
 :root {
   font-size: 14px;
   font-family: monospace;
@@ -19,10 +21,10 @@
 }
 body {
   background: var(--baseColor);
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 60% 1fr;
   justify-content: center;
-  align-items: start;
-  padding-top: 10%;
+  align-items: center;
   height: 100dvh;
   color: var(--frontTextColor);
 }
@@ -31,7 +33,9 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: clamp(40%, 60%, 100%);
+  align-self: start;
+  padding-top: 10%;
+  width: 100%;
 }
 .typingGame header {
   /* width: var(--gameWidth); */
@@ -70,10 +74,11 @@ body {
     var(--colorYellow),
     var(--colorGreen)
   );
-  border-radius: 50px;
   background-size: 700px;
+  border-radius: 50px;
   height: 10px;
-  width: 100%;
+  width: 0%;
+  transition: width 0.1s ease;
 }
 .typingGame__accuracyArea {
   display: flex;
@@ -102,6 +107,7 @@ body {
 .typingGame__timerArea {
   padding: 10px;
 }
+
 .typingGame__typingArea {
   width: 100%;
   padding: 2em;
