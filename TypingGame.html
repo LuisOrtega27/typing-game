@@ -8,35 +8,38 @@
     <script src="./scripts.js" defer></script>
   </head>
   <body>
-    <header>
-      <h1>Try to match the text with accuracy!</h1>
+    <div class="typingGame">
+      <header>
+        <h1>Try to match the text with accuracy!</h1>
 
-      <div class="typingGame__scoreArea">
-        <div class="typingGame__scoreBar">
-          <p>Bonus:</p>
-          <div class="typingGame__scoreBar__bar">
-            <div class="typingGame__bar"></div>
+        <div class="typingGame__scoreArea">
+          <div class="typingGame__bonusBarArea">
+            <p>Speed Bonus:</p>
+            <div class="typingGame__bonusBar">
+              <div class="typingGame__bar"></div>
+            </div>
+          </div>
+
+          <div class="typingGame__accuracyArea">
+            <p>
+              Accuracy:
+              <span class="typingGame__accuracyArea__score">000.00</span>
+              <span class="typingGame__accuracyArea__persentage">%</span>
+            </p>
+          </div>
+
+          <div class="typingGame__timerArea">
+            <p><span class="typingGame__timerArea__time">00:00</span></p>
           </div>
         </div>
+      </header>
 
-        <div class="typingGame__scoreArea__accuracy">
-          <p>
-            Accuracy:
-            <span class="typingGame__scoreArea__accuracy__score">53,5</span>%
-          </p>
-        </div>
-
-        <div class="typingGame__scoreArea__timeArea">
-          <p><span class="typingGame__scoreArea__time">00:00</span></p>
-        </div>
-      </div>
-    </header>
-
-    <main id="typingGame">
-      <p class="typingGame__word">
-        <span class="typingGame__frontWord"></span>
-        <span class="typingGame__backWord"></span>
-      </p>
-    </main>
+      <main class="typingGame__typingArea">
+        <p class="typingGame__word">
+          <span class="typingGame__backWord"></span>
+          <span class="typingGame__frontWord"></span>
+        </p>
+      </main>
+    </div>
   </body>
 </html>

@@ -3,10 +3,14 @@
   font-family: monospace;
   --frontTextColor: #fff;
   --backTextColor: #cccccc60;
-  --baseColor: rgb(5, 7, 19);
-  /* --baseColor: #050713; */
+  --baseColor: #050713;
   --secondaryColor: #090c1e;
   --gameWidth: 60%;
+
+  --colorRed: hsl(0, 60%, 50%);
+  --colorOrange: hsl(39, 60%, 50%);
+  --colorYellow: hsl(60, 60%, 50%);
+  --colorGreen: hsl(120, 60%, 25%);
 }
 * {
   padding: 0;
@@ -16,48 +20,75 @@
 body {
   background: var(--baseColor);
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100dvh;
   color: var(--frontTextColor);
 }
-header {
-  width: var(--gameWidth);
-  padding: 1em;
-  h1 {
-    margin-bottom: 1em;
-    text-align: center;
-  }
-  & .typingGame__scoreArea {
-    font-size: 1.8em;
-    display: grid;
-    grid-template-columns: 3fr 1fr 1fr;
-    text-align: center;
-
-    & .typingGame__scoreBar {
-      display: grid;
-      grid-template-columns: auto 1fr;
-      gap: 10px;
-      padding-right: 20px;
-
-      & .typingGame__bar {
-        background: linear-gradient(45deg, red, orange, yellow, green);
-        background-size: 600px;
-        height: 100%;
-        width: 100%;
-      }
-    }
-
-    /* & .typingGame__scoreArea__accuracy{} */
-    /* & .typingGame__scoreArea__timeArea */
-  }
+.typingGame {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
-#typingGame {
-  width: var(--gameWidth);
+.typingGame header {
+  /* width: var(--gameWidth); */
+  padding: 1em;
+}
+.typingGame h1 {
+  margin-bottom: 1em;
+  text-align: center;
+}
+.typingGame__scoreArea {
+  font-size: 1.8em;
+  display: grid;
+  grid-template-columns: 3fr 1fr 1fr;
+  text-align: center;
+}
+.typingGame__bonusBarArea {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 20px;
+  padding-right: 20px;
+}
+.typingGame__bonusBar {
+  display: flex;
+  align-items: center;
+}
+.typingGame__bar {
+  background: linear-gradient(
+    45deg,
+    var(--colorRed),
+    var(--colorOrange),
+    var(--colorYellow),
+    var(--colorGreen)
+  );
+  border-radius: 50px;
+  background-size: 700px;
+  height: 20%;
+  width: 100%;
+}
+.red .typingGame__accuracyArea__score,
+.red .typingGame__accuracyArea__persentage {
+  color: var(--colorRed);
+}
+.orange .typingGame__accuracyArea__score,
+.orange .typingGame__accuracyArea__persentage {
+  color: var(--colorOrange);
+}
+.yellow .typingGame__accuracyArea__score,
+.yellow .typingGame__accuracyArea__persentage {
+  color: var(--colorYellow);
+}
+.green .typingGame__accuracyArea__score,
+.green .typingGame__accuracyArea__persentage {
+  color: var(--colorGreen);
+}
+
+.typingGame__typingArea {
+  width: 100%;
   border: solid 2px var(--frontTextColor);
   padding: 2em;
-  /* padding-bottom: 4em; */
   overflow: hidden;
 }
 .typingGame__word {
