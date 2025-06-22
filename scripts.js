@@ -70,28 +70,33 @@ let minuts = 0;
 // JUST FOR THE FISRT INPUT
 let isGameJustStarted = true;
 
+//
+let GameScoreBarChangeRate = 150;
+
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Variables ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 //
 //
 //
 // ================================== SET TIMER ==============================
 function setGameTimer() {
-  if (seconds > 59) {
-    seconds = 0;
-    minuts += 1;
-  }
+  gameTimeInterval = setInterval(() => {
+    if (seconds > 59) {
+      seconds = 0;
+      minuts += 1;
+    }
 
-  let timer = `${minuts < 10 ? "0" + minuts : minuts}:${
-    seconds < 10 ? "0" + seconds : seconds
-  }`;
+    let timer = `${minuts < 10 ? "0" + minuts : minuts}:${
+      seconds < 10 ? "0" + seconds : seconds
+    }`;
 
-  GAME_TIMER.textContent = timer;
+    GAME_TIMER.textContent = timer;
 
-  seconds += 1;
+    seconds += 1;
 
-  //   console.log(timer == "10:00", timer);
+    //   console.log(timer == "10:00", timer);
 
-  if (timer == "10:00") clearInterval(gameTimeInterval);
+    if (timer == "10:00") clearInterval(gameTimeInterval);
+  }, 1000);
 }
 
 // ================================== SET BONUS BAR ==========================
@@ -106,7 +111,7 @@ function setBonusBar() {
     );
 
     if (gameBonus == 0) clearInterval(gameBonusBarInterval);
-  }, 200);
+  }, GameScoreBarChangeRate);
 }
 
 // ================================== SET BACKGROUND SENTENSE ================
@@ -136,7 +141,6 @@ function selectRandomSentence() {
 
 // ================================== START GAME =============================
 window.addEventListener("DOMContentLoaded", () => {
-  gameTimeInterval = setInterval(setGameTimer, 1000);
   selectRandomSentence();
 });
 
@@ -196,6 +200,8 @@ window.addEventListener("keydown", (event) => {
   // No supe como hacer de otra manera que se ejecutase una sola vez al iniciar el juego jajaja
   if (isGameJustStarted) {
     setBonusBar();
+    setGameTimer();
+
     isGameJustStarted = false;
   }
 });
