@@ -1,0 +1,85 @@
+:root {
+  font-size: 14px;
+  font-family: monospace;
+  --frontTextColor: #fff;
+  --backTextColor: #cccccc60;
+  --baseColor: rgb(5, 7, 19);
+  /* --baseColor: #050713; */
+  --secondaryColor: #090c1e;
+  --gameWidth: 60%;
+}
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+body {
+  background: var(--baseColor);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100dvh;
+  color: var(--frontTextColor);
+}
+header {
+  width: var(--gameWidth);
+  padding: 1em;
+  h1 {
+    margin-bottom: 1em;
+    text-align: center;
+  }
+  & .typingGame__scoreArea {
+    font-size: 1.8em;
+    display: grid;
+    grid-template-columns: 3fr 1fr 1fr;
+    text-align: center;
+
+    & .typingGame__scoreBar {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 10px;
+      padding-right: 20px;
+
+      & .typingGame__bar {
+        background: linear-gradient(45deg, red, orange, yellow, green);
+        background-size: 600px;
+        height: 100%;
+        width: 100%;
+      }
+    }
+
+    /* & .typingGame__scoreArea__accuracy{} */
+    /* & .typingGame__scoreArea__timeArea */
+  }
+}
+#typingGame {
+  width: var(--gameWidth);
+  border: solid 2px var(--frontTextColor);
+  padding: 2em;
+  /* padding-bottom: 4em; */
+  overflow: hidden;
+}
+.typingGame__word {
+  position: relative;
+  background: var;
+  padding: 0;
+  border-radius: 1em;
+
+  .typingGame__frontWord,
+  .typingGame__backWord {
+    font-size: 2em;
+  }
+
+  .typingGame__frontWord {
+    color: var(--frontTextColor);
+    display: inline-block;
+    min-height: 1em;
+  }
+  .typingGame__backWord {
+    position: absolute;
+    left: 0;
+    color: var(--backTextColor);
+    pointer-events: none;
+  }
+}
