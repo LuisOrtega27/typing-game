@@ -67,7 +67,9 @@ let gameTimeInterval = null;
 let seconds = 1;
 let minuts = 0;
 
+// JUST FOR THE FISRT INPUT
 let isGameJustStarted = true;
+
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Variables ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 //
 //
