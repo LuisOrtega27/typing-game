@@ -96,7 +96,6 @@ function setGameTimer() {
 function setBonusBar() {
   gameBonusBarInterval = setInterval(() => {
     isBonus ? (gameBonus += 2) : (gameBonus -= 1);
-
     isBonus = false;
 
     GAME_BONUS_BAR.style.setProperty(
@@ -175,11 +174,10 @@ function verifyAccuracy() {
     if (letter == currentSentence[index]) {
       count++;
       isBonus = true;
+    } else {
+      isBonus = false;
     }
   });
-
-  //   console.log(currentSentence);
-  //   console.log(userSentence);
 
   gameAccuracy = ((count * 100) / userSentence.length).toFixed(2);
   setAccuracy();
