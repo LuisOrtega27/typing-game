@@ -122,6 +122,7 @@ body {
   background: var;
   padding: 0;
   border-radius: 1em;
+  transition: height 1s ease;
 
   .typingGame__frontWord,
   .typingGame__backWord {
