@@ -2,6 +2,7 @@
 
 import { growMinimapBar } from "./growMinimapBar.js";
 import { minimap } from "./minimap.js";
+import { setScoreResume } from "./setScoreResume.js";
 
 const ABC = [
   "a",
@@ -35,13 +36,10 @@ const ABC = [
 const ABC_SPECIALS = [" ", ".", ":", ",", ";", '"', "-", "_", "!", "?"];
 
 const SENTENCE_LISTE = [
-  "Mucho texto",
-  "muchisimo texto",
-  "lo que sea",
-  "consequuntur velit est eaque? Tenetur, sunt!",
-  "velit Tenetur, sunt!",
-  "est eaque? Tenetur!",
-  "me quede sin ideas",
+  "Erre con erre, guitarra; erre con erre, carril. Rapido ruedan los carros, cargados de azucar, del ferrocarril",
+  "Escribe este texto",
+  "Mi mama me mima",
+  "Tres tristes tigres tragaban trigo en un trigal",
 ];
 let targetSentence = 0;
 
@@ -58,10 +56,12 @@ const forntWord = document.querySelector(".typingGame__frontWord");
 let userSentence = "";
 
 // SCORE RESUME
-const USER_SHOWCASE = document.querySelector(".userShowcase");
+const SCORE_RESUME = document.querySelector(".scoreResume");
 
 // USER SCORE
-let userScore = 0;
+let userScore = 0.0;
+let userAccuracy = 0;
+let userAccuracyByLevel = [];
 
 // BONUS BAR
 const GAME_BONUS_BAR = document.querySelector(".typingGame__bar");
@@ -69,19 +69,19 @@ let gameBonusBarInterval = null;
 let gameBonus = 0;
 let isBonus = false;
 let GameScoreBarGrowRate = 5;
-let GameScoreBarChangeRate = 100;
+let GameScoreBarChangeRate = 150;
 
 // ACCURACY
 const GAME_ACCURACY_SCORE = document.querySelector(
   ".typingGame__accuracyArea__score"
 );
-let gameAccuracy = 0;
 
 // TIMER
 const GAME_TIMER = document.querySelector(".typingGame__timerArea__time");
 let gameTimeInterval = null;
 let seconds = 1;
 let minuts = 0;
+let gameTimer = "";
 
 // JUST FOR THE FISRT INPUT
 let isGameJustStarted = true;
@@ -100,18 +100,18 @@ function setGameTimer() {
       minuts += 1;
     }
 
-    let timer = `${minuts < 10 ? "0" + minuts : minuts}:${
+    gameTimer = `${minuts < 10 ? "0" + minuts : minuts}:${
       seconds < 10 ? "0" + seconds : seconds
     }`;
 
-    GAME_TIMER.textContent = timer;
+    GAME_TIMER.textContent = gameTimer;
 
     seconds += 1;
 
-    //   console.log(timer == "10:00", timer);
-
-    if (timer == "10:00") clearInterval(gameTimeInterval);
+    if (gameTimer == "10:00") clearInterval(gameTimeInterval);
   }, 1000);
+
+  // console.log(gameTimer);
 }
 
 // ================================== SET BONUS BAR ==========================
@@ -120,12 +120,26 @@ function setBonusBar() {
     isBonus ? (gameBonus += GameScoreBarGrowRate) : (gameBonus -= 1);
     isBonus = false;
 
-    GAME_BONUS_BAR.style.setProperty(
-      "width",
-      `${gameBonus >= 100 ? 100 : gameBonus}%`
-    );
+    // GIVE BONUS TO USER
+    if (gameBonus > 75) {
+      userScore += 2;
+    } else if (gameBonus > 50 || gameBonus < 75) {
+      userScore += 1.5;
+    } else if (gameBonus > 25 || gameBonus < 50) {
+      userScore += 1;
+    } else {
+      userScore += 0.5;
+    }
 
-    // if (gameBonus == 0) clearInterval(gameBonusBarInterval);
+    // LIMIT BONUS BAR MIN & MAX
+    if (gameBonus <= 0) {
+      gameBonus = 0;
+    } else if (gameBonus > 100) {
+      gameBonus = 100;
+    } else {
+      gameBonus;
+    }
+    GAME_BONUS_BAR.style.setProperty("width", `${gameBonus}%`);
   }, GameScoreBarChangeRate);
 }
 
@@ -143,7 +157,7 @@ function setFrontSentence(key) {
   verifyAccuracy();
 }
 
-// ================================== SHOOSE SENTENSE =================
+// ================================== SHOOSE SENTENSE ========================
 function selectSentence() {
   let sentence = SENTENCE_LISTE[targetSentence];
   setBackSentence(sentence);
@@ -151,7 +165,7 @@ function selectSentence() {
   if (targetSentence < SENTENCE_LISTE.length) targetSentence++;
 }
 
-// ================================== LOAD GAME =============================
+// ================================== LOAD GAME ==============================
 window.addEventListener("DOMContentLoaded", () => {
   selectSentence();
   minimap(MINIMAP_ELEMENT, SENTENCE_LISTE.length);
@@ -160,26 +174,26 @@ window.addEventListener("DOMContentLoaded", () => {
 // ================================== SET ACCURACY ===========================
 function setAccuracy() {
   let accuracy;
-  if (gameAccuracy.length == 4) {
-    accuracy = `00${gameAccuracy}`;
-  } else if (gameAccuracy.length == 5) {
-    accuracy = `0${gameAccuracy}`;
+  if (userAccuracy.length == 4) {
+    accuracy = `00${userAccuracy}`;
+  } else if (userAccuracy.length == 5) {
+    accuracy = `0${userAccuracy}`;
   } else {
-    accuracy = gameAccuracy;
+    accuracy = userAccuracy;
   }
+
   //   No pense muy bien esta parte
   let percentageContainer = GAME_ACCURACY_SCORE.parentElement.parentElement;
 
-  if (accuracy > 75)
+  if (accuracy > 75) {
     percentageContainer.className = "typingGame__accuracyArea green";
-  //
-  else if (accuracy > 50 && accuracy > 74)
+  } else if (accuracy > 50 && accuracy > 74) {
     percentageContainer.className = "typingGame__accuracyArea yellow";
-  //
-  else if (accuracy > 25 && accuracy > 49)
+  } else if (accuracy > 25 && accuracy > 49) {
     percentageContainer.className = "typingGame__accuracyArea orange";
-  //
-  else percentageContainer.className = "typingGame__accuracyArea red";
+  } else {
+    percentageContainer.className = "typingGame__accuracyArea red";
+  }
 
   GAME_ACCURACY_SCORE.textContent = accuracy;
 }
@@ -188,7 +202,7 @@ function setAccuracy() {
 function clearGame() {
   userSentence = "";
   forntWord.textContent = "";
-  gameAccuracy = 0;
+  userAccuracy = 0;
   GAME_ACCURACY_SCORE.parentElement.parentElement.className =
     "typingGame__accuracyArea";
   GAME_ACCURACY_SCORE.textContent = "000.00";
@@ -196,41 +210,68 @@ function clearGame() {
 
 // ================================== END GAME ===============================
 function finishGame() {
+  setScoreResume(
+    SCORE_RESUME,
+    userScore,
+    userAccuracy,
+    userAccuracyByLevel,
+    gameTimer
+  );
+
   window.removeEventListener("keydown", handleKeyboard);
-  console.log("GAME FINISHED");
+
+  clearInterval(gameTimeInterval);
+
+  backWord.textContent = "";
+  forntWord.textContent = "GAME FINISHED!! :D";
 }
 
 // ================================== NEXT LEVEL =============================
 function AdvanceToNextLevel() {
+  growMinimapBar(MINIMAP_ELEMENT, SENTENCE_LISTE.length, gameLevel);
+
   if (gameLevel == SENTENCE_LISTE.length - 1) return finishGame();
 
+  setScoreResume(
+    SCORE_RESUME,
+    userScore,
+    userAccuracy,
+    userAccuracyByLevel,
+    gameTimer
+  );
   clearGame();
   selectSentence();
-  growMinimapBar(MINIMAP_ELEMENT, SENTENCE_LISTE.length - 1, gameLevel);
   gameLevel += 1;
 }
 
 // ================================== VERIFY ACCURACY ========================
 function verifyAccuracy() {
-  let count = 0;
-
-  if (userSentence.length == currentSentence.length) {
+  if (
+    currentSentence != undefined &&
+    userSentence.length == currentSentence.length
+  ) {
     return AdvanceToNextLevel();
   }
 
+  if (currentSentence == undefined) return;
+
+  let count = 0;
   Array.from(userSentence).map((letter, index) => {
     if (letter == currentSentence[index]) {
       count++;
+      userScore += 0.3;
       isBonus = true;
     } else {
       isBonus = false;
     }
   });
 
-  gameAccuracy = ((count * 100) / userSentence.length).toFixed(2);
+  userAccuracy = ((count * 100) / userSentence.length).toFixed(2);
+
   setAccuracy();
 }
 
+// ================================== DETECT KEYBOARD ========================
 function handleKeyboard(event) {
   const { key } = event;
 
@@ -245,5 +286,4 @@ function handleKeyboard(event) {
     isGameJustStarted = false;
   }
 }
-// ================================== DETECT KEYBOARD ========================
 window.addEventListener("keydown", handleKeyboard);
