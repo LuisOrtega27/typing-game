@@ -23,7 +23,7 @@
 body {
   background: var(--baseColor);
   display: grid;
-  grid-template-columns: 1fr 65% 1fr;
+  grid-template-columns: 1fr 60% 1fr;
   justify-content: center;
   align-items: center;
   gap: 2em;
@@ -132,7 +132,6 @@ body {
     color: var(--frontTextColor);
     display: inline-block;
     min-height: 1em;
-    word-break: break-all;
     max-width: 100%;
   }
   .typingGame__backWord {

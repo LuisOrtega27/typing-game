@@ -36,10 +36,12 @@ const ABC = [
 const ABC_SPECIALS = [" ", ".", ":", ",", ";", '"', "-", "_", "!", "?"];
 
 const SENTENCE_LISTE = [
-  "Erre con erre, guitarra; erre con erre, carril. Rapido ruedan los carros, cargados de azucar, del ferrocarril",
   "Escribe este texto",
   "Mi mama me mima",
   "Tres tristes tigres tragaban trigo en un trigal",
+  "Si cienfs cienfs comen cienfs cienfs, ¿cuántos cienfs comerían cien cienfs?",
+  "Erre con erre, guitarra; erre con erre, carril. Rapido ruedan los carros, cargados de azucar, del ferrocarril",
+  "Treinta y tres trechos de troncos trocearon tres trozadores tristes de troncos y tresdoblaron su trabajo, tresdoblando su trabajo de trocear troncos y tronquitos.",
 ];
 let targetSentence = 0;
 
@@ -145,8 +147,11 @@ function setBonusBar() {
 
 // ================================== SET BACKGROUND SENTENSE ================
 function setBackSentence(sentence) {
-  backWord.textContent = sentence;
   currentSentence = sentence;
+  backWord.textContent = sentence;
+
+  let adapHeight = backWord.clientHeight;
+  backWord.parentElement.style.setProperty("height", `${adapHeight}px`);
 }
 
 // ================================== SET FRONT SENTENSE =====================
